@@ -4,21 +4,12 @@ import {
   ClipboardList,
   Users,
   Store,
-  UsersRound,
-  Calendar,
-  Percent,
-  BarChart2,
-  MessageCircle,
-  Shirt,
-  Scissors,
-  Tag,
-  Lock,
-  CreditCard,
   ChevronLeft,
   ChevronRight,
   Settings,
   LogOut,
   UserCircle,
+  X,
 } from 'lucide-react'
 import { useState } from 'react'
 import { useI18n } from '../../i18n/I18nContext'
@@ -44,12 +35,17 @@ const ADMIN_ITEMS = [
   // { to: '/billing', key: 'billing', icon: CreditCard },
 ]
 
-function NavItem({ item, collapsed, t }) {
+// Labels only hide on desktop when explicitly collapsed (`lg:hidden`) — on
+// mobile the drawer is always shown at full width, regardless of the
+// desktop collapsed state, since it's a temporary overlay rather than a
+// permanently docked rail.
+function NavItem({ item, collapsed, t, onNavigate }) {
   const Icon = item.icon
   return (
     <NavLink
       to={item.to}
       end={item.end}
+      onClick={onNavigate}
       className={({ isActive }) =>
         `flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-colors ${
           isActive
@@ -60,12 +56,12 @@ function NavItem({ item, collapsed, t }) {
       title={collapsed ? t(`nav.${item.key}`) : undefined}
     >
       <Icon size={19} strokeWidth={2} className="shrink-0" />
-      {!collapsed && <span className="truncate">{t(`nav.${item.key}`)}</span>}
+      <span className={`truncate ${collapsed ? 'lg:hidden' : ''}`}>{t(`nav.${item.key}`)}</span>
     </NavLink>
   )
 }
 
-export default function Sidebar() {
+export default function Sidebar({ mobileOpen, onCloseMobile }) {
   const { t, isRtl } = useI18n()
   const { user, logout } = useAuth()
   const [collapsed, setCollapsed] = useState(false)
@@ -76,58 +72,80 @@ export default function Sidebar() {
   const initial = (user?.email || 'T').charAt(0).toUpperCase()
 
   return (
-    <aside
-      className={`flex h-screen flex-col border-e border-slate-100 bg-white transition-all duration-200 ${
-        collapsed ? 'w-20' : 'w-64'
-      }`}
-    >
-      <div className="flex items-center justify-between px-4 py-5">
-        {!collapsed && (
-          <div className="flex items-center gap-2">
-            <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-orange text-sm font-extrabold text-white">
+    <>
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-slate-900/50 lg:hidden"
+          onClick={onCloseMobile}
+          aria-hidden="true"
+        />
+      )}
+
+      <aside
+        className={`fixed inset-y-0 start-0 z-50 flex h-screen w-72 flex-col border-e border-slate-100 bg-white transition-transform duration-200 lg:static lg:z-auto lg:translate-x-0 lg:transition-[width] ${
+          mobileOpen ? 'translate-x-0' : isRtl ? 'translate-x-full' : '-translate-x-full'
+        } ${collapsed ? 'lg:w-20' : 'lg:w-64'}`}
+      >
+        <div className="flex items-center justify-between px-4 py-5">
+          <div className="flex min-w-0 items-center gap-2">
+            <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-orange text-sm font-extrabold text-white">
               G
             </div>
-            <span className="text-lg font-extrabold tracking-tight text-slate-800">
+            <span
+              className={`truncate text-lg font-extrabold tracking-tight text-slate-800 ${
+                collapsed ? 'lg:hidden' : ''
+              }`}
+            >
               {t('appName')}
             </span>
           </div>
-        )}
-        <button
-          type="button"
-          onClick={() => setCollapsed((c) => !c)}
-          className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
-          aria-label="Toggle sidebar"
-        >
-          <ToggleIcon size={18} />
-        </button>
-      </div>
-
-      <nav className="flex-1 space-y-1 overflow-y-auto px-3">
-        {MAIN_ITEMS.map((item) => (
-          <NavItem key={item.key} item={item} collapsed={collapsed} t={t} />
-        ))}
-
-        <div className="pt-4">
-          {!collapsed && (
-            <p className="px-3 pb-2 text-xs font-semibold tracking-wider text-slate-400">
-              {t('nav.admin').toUpperCase()}
-            </p>
-          )}
-          <div className="space-y-1">
-            {ADMIN_ITEMS.map((item) => (
-              <NavItem key={item.key} item={item} collapsed={collapsed} t={t} />
-            ))}
-          </div>
+          <button
+            type="button"
+            onClick={() => setCollapsed((c) => !c)}
+            className="hidden shrink-0 rounded-lg p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-600 lg:block"
+            aria-label="Toggle sidebar"
+          >
+            <ToggleIcon size={18} />
+          </button>
+          <button
+            type="button"
+            onClick={onCloseMobile}
+            className="shrink-0 rounded-lg p-1.5 text-slate-400 hover:bg-slate-50 hover:text-slate-600 lg:hidden"
+            aria-label={t('common.close')}
+          >
+            <X size={20} />
+          </button>
         </div>
-      </nav>
 
-      <div className="border-t border-slate-100 p-3">
-        {!collapsed && (
+        <nav className="flex-1 space-y-1 overflow-y-auto px-3">
+          {MAIN_ITEMS.map((item) => (
+            <NavItem key={item.key} item={item} collapsed={collapsed} t={t} onNavigate={onCloseMobile} />
+          ))}
+
+          {ADMIN_ITEMS.length > 0 && (
+            <div className="pt-4">
+              <p
+                className={`px-3 pb-2 text-xs font-semibold tracking-wider text-slate-400 ${
+                  collapsed ? 'lg:hidden' : ''
+                }`}
+              >
+                {t('nav.admin').toUpperCase()}
+              </p>
+              <div className="space-y-1">
+                {ADMIN_ITEMS.map((item) => (
+                  <NavItem key={item.key} item={item} collapsed={collapsed} t={t} onNavigate={onCloseMobile} />
+                ))}
+              </div>
+            </div>
+          )}
+        </nav>
+
+        <div className="border-t border-slate-100 p-3">
           <div className="mb-2 flex items-center gap-3 rounded-xl px-2 py-2">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-indigo-500 text-sm font-semibold text-white">
               {initial}
             </div>
-            <div className="min-w-0">
+            <div className={`min-w-0 ${collapsed ? 'lg:hidden' : ''}`}>
               <p className="truncate text-sm font-semibold text-slate-700">
                 {user?.displayName || 'TailorShop'}
               </p>
@@ -136,32 +154,34 @@ export default function Sidebar() {
               </p>
             </div>
           </div>
-        )}
-        <div className={`flex ${collapsed ? 'flex-col items-center gap-2' : 'justify-between px-1'}`}>
-          <NavLink
-            to="/settings"
-            className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
-            title={t('user.settings')}
-          >
-            <Settings size={18} />
-          </NavLink>
-          <NavLink
-            to="/profile"
-            className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
-            title={t('user.profile')}
-          >
-            <UserCircle size={18} />
-          </NavLink>
-          <button
-            type="button"
-            onClick={logout}
-            className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-red-500"
-            title={t('user.logout')}
-          >
-            <LogOut size={18} />
-          </button>
+          <div className={`flex justify-between px-1 ${collapsed ? 'lg:flex-col lg:items-center lg:gap-2' : ''}`}>
+            <NavLink
+              to="/settings"
+              onClick={onCloseMobile}
+              className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
+              title={t('user.settings')}
+            >
+              <Settings size={18} />
+            </NavLink>
+            <NavLink
+              to="/profile"
+              onClick={onCloseMobile}
+              className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-slate-600"
+              title={t('user.profile')}
+            >
+              <UserCircle size={18} />
+            </NavLink>
+            <button
+              type="button"
+              onClick={logout}
+              className="rounded-lg p-2 text-slate-400 hover:bg-slate-50 hover:text-red-500"
+              title={t('user.logout')}
+            >
+              <LogOut size={18} />
+            </button>
+          </div>
         </div>
-      </div>
-    </aside>
+      </aside>
+    </>
   )
 }

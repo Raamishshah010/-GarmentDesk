@@ -90,7 +90,11 @@
     "customerName": "گاہک کا نام",
     "customerPhone": "فون نمبر",
     "amount": "رقم (£)",
-    "notes": "نوٹس"
+    "notes": "نوٹس",
+    "customerSection": "گاہک",
+    "detailsSection": "آرڈر کی تفصیلات",
+    "selectStore": "دکان منتخب کریں",
+    "noStoresAvailable": "ابھی تک کوئی دکان نہیں — پہلے دکانیں والے صفحے پر ایک دکان شامل کریں۔"
   },
   "dashboard": {
     "title": "ڈیش بورڈ",

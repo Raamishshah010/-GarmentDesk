@@ -90,7 +90,11 @@
     "customerName": "Customer name",
     "customerPhone": "Phone number",
     "amount": "Amount (£)",
-    "notes": "Notes"
+    "notes": "Notes",
+    "customerSection": "Customer",
+    "detailsSection": "Order Details",
+    "selectStore": "Select a store",
+    "noStoresAvailable": "No stores yet — add one on the Stores page first."
   },
   "dashboard": {
     "title": "Dashboard",

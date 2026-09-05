@@ -38,7 +38,7 @@ export default function Login() {
       <div className="absolute top-6 end-6">
         <LanguageSwitcher />
       </div>
-      <div className="w-full max-w-sm rounded-2xl border border-slate-100 bg-white p-8 shadow-sm">
+      <div className="w-full max-w-sm rounded-2xl border border-slate-100 bg-white p-6 shadow-sm sm:p-8">
         <div className="mb-6 flex flex-col items-center text-center">
           <div className="mb-3 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-orange text-white">
             <Scissors size={22} />

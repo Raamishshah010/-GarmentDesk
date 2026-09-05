@@ -12,12 +12,6 @@ import { useStores } from '../hooks/useStores'
 import { useCustomers } from '../hooks/useCustomers'
 import { toComparableTime } from '../utils/format'
 
-const ACTION_BUTTONS = [
-  { key: 'alteration', labelKey: 'orders.addAlteration', className: 'bg-brand-blue hover:bg-blue-700' },
-  { key: 'repair', labelKey: 'orders.addRepair', className: 'bg-brand-orange hover:bg-orange-600' },
-  { key: 'bespoke', labelKey: 'orders.addBespoke', className: 'bg-brand-purple hover:bg-purple-700' },
-]
-
 export default function Orders() {
   const { t } = useI18n()
   const { orders, loading, error, addOrder, updateOrder, deleteOrder } = useOrders()
@@ -28,17 +22,10 @@ export default function Orders() {
   const [sort, setSort] = useState({ key: 'dueDate', dir: 'asc' })
 
   const [formOpen, setFormOpen] = useState(false)
-  const [formServiceType, setFormServiceType] = useState('bespoke')
   const [editingOrder, setEditingOrder] = useState(null)
   const [viewingOrder, setViewingOrder] = useState(null)
   const [deletingOrder, setDeletingOrder] = useState(null)
   const [deleting, setDeleting] = useState(false)
-
-  const storeNames = useMemo(() => {
-    const fromOrders = orders.map((o) => o.store).filter(Boolean)
-    const fromStores = storeDocs.map((s) => s.name).filter(Boolean)
-    return Array.from(new Set([...fromStores, ...fromOrders])).sort()
-  }, [orders, storeDocs])
 
   const filteredOrders = useMemo(() => {
     const term = filters.search.trim().toLowerCase()
@@ -49,7 +36,7 @@ export default function Orders() {
         o.customerName?.toLowerCase().includes(term)
       const matchesService = filters.service === 'all' || o.serviceType === filters.service
       const matchesPayment = filters.payment === 'all' || o.paymentStatus === filters.payment
-      const matchesStore = filters.store === 'all' || o.store === filters.store
+      const matchesStore = filters.store === 'all' || o.storeId === filters.store
       return matchesSearch && matchesService && matchesPayment && matchesStore
     })
 
@@ -67,9 +54,8 @@ export default function Orders() {
   const handleSort = (key) =>
     setSort((s) => (s.key === key ? { key, dir: s.dir === 'asc' ? 'desc' : 'asc' } : { key, dir: 'asc' }))
 
-  const openAddModal = (serviceType) => {
+  const openAddModal = () => {
     setEditingOrder(null)
-    setFormServiceType(serviceType)
     setFormOpen(true)
   }
 
@@ -103,20 +89,19 @@ export default function Orders() {
     <div>
       <PageHeader
         title={t('orders.title')}
-        actions={ACTION_BUTTONS.map((btn) => (
+        actions={
           <button
-            key={btn.key}
             type="button"
-            onClick={() => openAddModal(btn.key)}
-            className={`flex items-center gap-1.5 rounded-lg px-4 py-2.5 text-sm font-semibold text-white ${btn.className}`}
+            onClick={openAddModal}
+            className="flex items-center gap-1.5 rounded-lg bg-brand-purple px-4 py-2.5 text-sm font-semibold text-white hover:bg-purple-700"
           >
             <Plus size={16} />
-            {t(btn.labelKey)}
+            {t('orders.newOrder')}
           </button>
-        ))}
+        }
       />
 
-      <OrderFilters filters={filters} setFilters={setFilters} stores={storeNames} />
+      <OrderFilters filters={filters} setFilters={setFilters} stores={storeDocs} />
 
       {error && (
         <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
@@ -139,8 +124,7 @@ export default function Orders() {
         onClose={() => setFormOpen(false)}
         onSubmit={handleFormSubmit}
         initialOrder={editingOrder}
-        defaultServiceType={formServiceType}
-        stores={storeNames}
+        stores={storeDocs}
         customers={customers}
       />
 
