@@ -1,0 +1,52 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-urdu: "Noto Nastaliq Urdu", serif;
+
+  --color-brand-blue: #2563eb;
+  --color-brand-orange: #f97316;
+  --color-brand-purple: #9333ea;
+  --color-brand-navy: #0f172a;
+
+  --color-pill-unpaid-bg: #fce7f3;
+  --color-pill-unpaid-text: #db2777;
+  --color-pill-deposit-bg: #fef3c7;
+  --color-pill-deposit-text: #b45309;
+  --color-pill-paid-bg: #d1fae5;
+  --color-pill-paid-text: #059669;
+  --color-pill-service-bg: #ede9fe;
+  --color-pill-service-text: #7c3aed;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #f8fafc;
+}
+
+html.font-urdu body {
+  font-family: var(--font-urdu);
+}
+
+html[dir="rtl"] .rtl-flip {
+  transform: scaleX(-1);
+}
+
+/* Compact, unobtrusive scrollbar for the sidebar and tables */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #cbd5e1;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
