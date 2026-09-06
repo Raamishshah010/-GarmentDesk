@@ -1,4 +1,3 @@
-
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import {
   UsersRound,
@@ -31,12 +30,8 @@ function App() {
       <AuthProvider>
         <BrowserRouter>
           <Routes>
-
-            {/* Login */}
+            {/* Login lives at the root URL */}
             <Route path="/" element={<Login />} />
-            <Route path="/login" element={<Login />} />
-
-            {/* Protected application */}
             <Route
               element={
                 <ProtectedRoute>
@@ -44,120 +39,24 @@ function App() {
                 </ProtectedRoute>
               }
             >
-              {/* Dashboard is now /dashboard */}
-              <Route path="/dashboard" element={<Dashboard />} />
-
-              <Route path="/orders" element={<Orders />} />
-              <Route path="/customers" element={<Customers />} />
-              <Route path="/stores" element={<Stores />} />
-
-              <Route
-                path="/team"
-                element={
-                  <ComingSoon
-                    titleKey="nav.team"
-                    Icon={UsersRound}
-                  />
-                }
-              />
-
-              <Route
-                path="/calendar"
-                element={
-                  <ComingSoon
-                    titleKey="nav.calendar"
-                    Icon={CalendarIcon}
-                  />
-                }
-              />
-
-              <Route
-                path="/commissions"
-                element={
-                  <ComingSoon
-                    titleKey="nav.commissions"
-                    Icon={Percent}
-                  />
-                }
-              />
-
-              <Route
-                path="/reports"
-                element={
-                  <ComingSoon
-                    titleKey="nav.reports"
-                    Icon={BarChart2}
-                  />
-                }
-              />
-
-              <Route
-                path="/support"
-                element={
-                  <ComingSoon
-                    titleKey="nav.support"
-                    Icon={MessageCircle}
-                  />
-                }
-              />
-
-              <Route
-                path="/garments"
-                element={
-                  <ComingSoon
-                    titleKey="nav.garments"
-                    Icon={Shirt}
-                  />
-                }
-              />
-
-              <Route
-                path="/alterations"
-                element={
-                  <ComingSoon
-                    titleKey="nav.alterations"
-                    Icon={Scissors}
-                  />
-                }
-              />
-
-              <Route
-                path="/coupons"
-                element={
-                  <ComingSoon
-                    titleKey="nav.coupons"
-                    Icon={Tag}
-                  />
-                }
-              />
-
-              <Route
-                path="/permissions"
-                element={
-                  <ComingSoon
-                    titleKey="nav.permissions"
-                    Icon={Lock}
-                  />
-                }
-              />
-
-              <Route
-                path="/billing"
-                element={
-                  <ComingSoon
-                    titleKey="nav.billing"
-                    Icon={CreditCard}
-                  />
-                }
-              />
-
-              <Route path="/settings" element={<Settings />} />
-              <Route path="/profile" element={<Profile />} />
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="orders" element={<Orders />} />
+              <Route path="customers" element={<Customers />} />
+              <Route path="stores" element={<Stores />} />
+              <Route path="team" element={<ComingSoon titleKey="nav.team" Icon={UsersRound} />} />
+              <Route path="calendar" element={<ComingSoon titleKey="nav.calendar" Icon={CalendarIcon} />} />
+              <Route path="commissions" element={<ComingSoon titleKey="nav.commissions" Icon={Percent} />} />
+              <Route path="reports" element={<ComingSoon titleKey="nav.reports" Icon={BarChart2} />} />
+              <Route path="support" element={<ComingSoon titleKey="nav.support" Icon={MessageCircle} />} />
+              <Route path="garments" element={<ComingSoon titleKey="nav.garments" Icon={Shirt} />} />
+              <Route path="alterations" element={<ComingSoon titleKey="nav.alterations" Icon={Scissors} />} />
+              <Route path="coupons" element={<ComingSoon titleKey="nav.coupons" Icon={Tag} />} />
+              <Route path="permissions" element={<ComingSoon titleKey="nav.permissions" Icon={Lock} />} />
+              <Route path="billing" element={<ComingSoon titleKey="nav.billing" Icon={CreditCard} />} />
+              <Route path="settings" element={<Settings />} />
+              <Route path="profile" element={<Profile />} />
             </Route>
-
-            {/* Any unknown URL goes to login */}
             <Route path="*" element={<Navigate to="/" replace />} />
-
           </Routes>
         </BrowserRouter>
       </AuthProvider>
@@ -166,4 +65,3 @@ function App() {
 }
 
 export default App
-

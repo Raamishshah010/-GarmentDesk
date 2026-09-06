@@ -27,7 +27,7 @@ export default function Login() {
     const success = await login(email, password)
     setSubmitting(false)
     if (success) {
-      navigate(location.state?.from || '/', { replace: true })
+      navigate(location.state?.from || '/dashboard', { replace: true })
     } else {
       setError(t('auth.invalidCredentials'))
     }

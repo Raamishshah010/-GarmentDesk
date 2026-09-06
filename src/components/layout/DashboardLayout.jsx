@@ -26,11 +26,13 @@ export default function DashboardLayout() {
   }, [mobileNavOpen])
 
   return (
-    <div className="flex h-screen overflow-hidden bg-slate-50">
-      <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
+    <div className="flex h-screen overflow-hidden bg-slate-50 print:block print:h-auto print:overflow-visible">
+      <div className="print:hidden">
+        <Sidebar mobileOpen={mobileNavOpen} onCloseMobile={() => setMobileNavOpen(false)} />
+      </div>
 
-      <div className="flex min-w-0 flex-1 flex-col overflow-y-auto">
-        <div className="flex items-center gap-3 border-b border-slate-100 bg-white px-4 py-3 lg:hidden">
+      <div className="flex min-w-0 flex-1 flex-col overflow-y-auto print:overflow-visible">
+        <div className="flex items-center gap-3 border-b border-slate-100 bg-white px-4 py-3 lg:hidden print:hidden">
           <button
             type="button"
             onClick={() => setMobileNavOpen(true)}
@@ -44,10 +46,10 @@ export default function DashboardLayout() {
           </span>
         </div>
 
-        <main className="flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8">
+        <main className="flex-1 px-4 py-5 sm:px-6 sm:py-6 lg:px-8 lg:py-8 print:p-0">
           <Outlet />
         </main>
-        <footer className="border-t border-slate-100 bg-white px-4 py-4 text-center text-sm text-slate-400 sm:px-8">
+        <footer className="border-t border-slate-100 bg-white px-4 py-4 text-center text-sm text-slate-400 sm:px-8 print:hidden">
           © {new Date().getFullYear()} {t('appName')}. {t('footer')}
         </footer>
       </div>

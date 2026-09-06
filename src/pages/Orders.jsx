@@ -1,10 +1,11 @@
 import { useMemo, useState } from 'react'
-import { Plus } from 'lucide-react'
+import { Plus, Printer } from 'lucide-react'
 import PageHeader from '../components/layout/PageHeader'
 import OrderFilters from '../components/orders/OrderFilters'
 import OrdersTable from '../components/orders/OrdersTable'
 import OrderFormModal from '../components/orders/OrderFormModal'
 import OrderViewModal from '../components/orders/OrderViewModal'
+import PrintableOrdersTable from '../components/orders/PrintableOrdersTable'
 import ConfirmDialog from '../components/ui/ConfirmDialog'
 import { useI18n } from '../i18n/I18nContext'
 import { useOrders } from '../hooks/useOrders'
@@ -87,37 +88,54 @@ export default function Orders() {
 
   return (
     <div>
-      <PageHeader
-        title={t('orders.title')}
-        actions={
-          <button
-            type="button"
-            onClick={openAddModal}
-            className="flex items-center gap-1.5 rounded-lg bg-brand-purple px-4 py-2.5 text-sm font-semibold text-white hover:bg-purple-700"
-          >
-            <Plus size={16} />
-            {t('orders.newOrder')}
-          </button>
-        }
-      />
+      <div className="print:hidden">
+        <PageHeader
+          title={t('orders.title')}
+          actions={
+            <>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="flex items-center gap-1.5 rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+              >
+                <Printer size={16} />
+                {t('orders.print')}
+              </button>
+              <button
+                type="button"
+                onClick={openAddModal}
+                className="flex items-center gap-1.5 rounded-lg bg-brand-purple px-4 py-2.5 text-sm font-semibold text-white hover:bg-purple-700"
+              >
+                <Plus size={16} />
+                {t('orders.newOrder')}
+              </button>
+            </>
+          }
+        />
 
-      <OrderFilters filters={filters} setFilters={setFilters} stores={storeDocs} />
+        <OrderFilters filters={filters} setFilters={setFilters} stores={storeDocs} />
 
-      {error && (
-        <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
-          {error} — check your Firebase configuration in <code>.env</code>.
-        </div>
-      )}
+        {error && (
+          <div className="mb-4 rounded-xl border border-amber-200 bg-amber-50 px-4 py-3 text-sm text-amber-700">
+            {error} — check your Firebase configuration in <code>.env</code>.
+          </div>
+        )}
 
-      <OrdersTable
-        orders={filteredOrders}
-        sort={sort}
-        onSort={handleSort}
-        onView={setViewingOrder}
-        onEdit={openEditModal}
-        onDelete={setDeletingOrder}
-        loading={loading}
-      />
+        <OrdersTable
+          orders={filteredOrders}
+          sort={sort}
+          onSort={handleSort}
+          onView={setViewingOrder}
+          onEdit={openEditModal}
+          onDelete={setDeletingOrder}
+          loading={loading}
+        />
+      </div>
+
+      {/* Print-only view: plain table with serial numbers, shown only when printing */}
+      <div className="hidden print:block">
+        <PrintableOrdersTable orders={filteredOrders} />
+      </div>
 
       <OrderFormModal
         open={formOpen}

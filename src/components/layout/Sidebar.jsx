@@ -16,7 +16,7 @@ import { useI18n } from '../../i18n/I18nContext'
 import { useAuth } from '../../context/AuthContext'
 
 const MAIN_ITEMS = [
-  { to: '/', key: 'dashboard', icon: LayoutDashboard, end: true },
+  { to: '/dashboard', key: 'dashboard', icon: LayoutDashboard, end: true },
   { to: '/orders', key: 'orders', icon: ClipboardList },
   { to: '/customers', key: 'customers', icon: Users },
   { to: '/stores', key: 'stores', icon: Store },
