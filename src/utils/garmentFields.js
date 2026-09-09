@@ -5,12 +5,12 @@
 // measurements like 15 1/2, so plain text beats a number input).
 // "style" fields are Yes/No checkboxes, stored as the string 'yes' or 'no'.
 export const GARMENT_FIELDS = [
-  { key: 'kinara', labelKey: 'garmentFields.kinara', group: 'measurements', type: 'text' },
+  { key: 'kandha', labelKey: 'garmentFields.kandha', group: 'measurements', type: 'text' },
   { key: 'bazu', labelKey: 'garmentFields.bazu', group: 'measurements', type: 'text' },
   { key: 'teera', labelKey: 'garmentFields.teera', group: 'measurements', type: 'text' },
   { key: 'collar', labelKey: 'garmentFields.collar', group: 'measurements', type: 'text' },
   { key: 'chhati', labelKey: 'garmentFields.chhati', group: 'measurements', type: 'text' },
-  { key: 'kamar', labelKey: 'garmentFields.kamar', group: 'measurements', type: 'text' },
+  { key: 'ghaira', labelKey: 'garmentFields.ghaira', group: 'measurements', type: 'text' },
   { key: 'lambai', labelKey: 'garmentFields.lambai', group: 'measurements', type: 'text' },
   { key: 'shalwar', labelKey: 'garmentFields.shalwar', group: 'measurements', type: 'text' },
   { key: 'pancha', labelKey: 'garmentFields.pancha', group: 'measurements', type: 'text' },

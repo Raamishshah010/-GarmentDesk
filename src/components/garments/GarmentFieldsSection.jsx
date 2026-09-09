@@ -1,4 +1,3 @@
-import Field, { inputClass } from '../ui/Field'
 import { useI18n } from '../../i18n/I18nContext'
 import { GARMENT_FIELDS } from '../../utils/garmentFields'
 
@@ -12,30 +11,52 @@ export default function GarmentFieldsSection({ values, onChange }) {
 
   return (
     <div className="sm:col-span-2">
-      <p className="mb-3 mt-1 text-sm font-semibold text-slate-600">
-        {t('garmentFields.measurementsHeading')}
-      </p>
-      <div className="grid grid-cols-2 gap-x-4 sm:grid-cols-3">
-        {measurements.map((f) => (
-          <Field key={f.key} label={t(f.labelKey)}>
-            <input className={inputClass} value={values[f.key] || ''} onChange={set(f.key)} />
-          </Field>
-        ))}
-      </div>
+      {/* Two side-by-side vertical lists, mirroring the two columns on the
+          handwritten reference sheet — measurements on one side, the
+          style checklist on the other. */}
+      <div className="grid grid-cols-1 gap-x-8 gap-y-5 sm:grid-cols-2">
+        <div>
+          <p className="mb-2 text-sm font-semibold text-slate-600">
+            {t('garmentFields.measurementsHeading')}
+          </p>
+          <div className="divide-y divide-slate-50 rounded-xl border border-slate-100">
+            {measurements.map((f) => (
+              <div key={f.key} className="flex items-center justify-between gap-3 px-3 py-2">
+                <label htmlFor={`garment-${f.key}`} className="text-sm text-slate-600">
+                  {t(f.labelKey)}
+                </label>
+                <input
+                  id={`garment-${f.key}`}
+                  className="w-24 rounded-lg border border-slate-200 px-2 py-1.5 text-end text-sm text-slate-700 outline-none focus:border-brand-blue focus:ring-2 focus:ring-blue-100"
+                  value={values[f.key] || ''}
+                  onChange={set(f.key)}
+                />
+              </div>
+            ))}
+          </div>
+        </div>
 
-      <p className="mb-3 mt-1 text-sm font-semibold text-slate-600">{t('garmentFields.styleHeading')}</p>
-      <div className="mb-4 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-        {style.map((f) => (
-          <label key={f.key} className="flex items-center gap-2 text-sm text-slate-700">
-            <input
-              type="checkbox"
-              checked={values[f.key] === 'yes'}
-              onChange={toggle(f.key)}
-              className="h-4 w-4 rounded border-slate-300 text-brand-blue focus:ring-2 focus:ring-blue-100"
-            />
-            {t(f.labelKey)}
-          </label>
-        ))}
+        <div>
+          <p className="mb-2 text-sm font-semibold text-slate-600">{t('garmentFields.styleHeading')}</p>
+          <div className="divide-y divide-slate-50 rounded-xl border border-slate-100">
+            {style.map((f) => (
+              <label
+                key={f.key}
+                htmlFor={`garment-${f.key}`}
+                className="flex items-center justify-between gap-3 px-3 py-2 text-sm text-slate-600"
+              >
+                {t(f.labelKey)}
+                <input
+                  id={`garment-${f.key}`}
+                  type="checkbox"
+                  checked={values[f.key] === 'yes'}
+                  onChange={toggle(f.key)}
+                  className="h-4 w-4 rounded border-slate-300 text-brand-blue focus:ring-2 focus:ring-blue-100"
+                />
+              </label>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   )

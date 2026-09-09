@@ -1,5 +1,5 @@
 {
-  "appName": "GarmentDesk",
+  "appName": "A.N CREATION",
   "nav": {
     "dashboard": "Dashboard",
     "orders": "Orders",
@@ -120,12 +120,12 @@
   "garmentFields": {
     "measurementsHeading": "Measurements",
     "styleHeading": "Style Details",
-    "kinara": "Kinara",
+    "kandha": "Kandha",
     "bazu": "Bazu",
     "teera": "Teera",
     "collar": "Collar",
     "chhati": "Chhati",
-    "kamar": "Kamar",
+    "ghaira": "Ghaira",
     "lambai": "Lambai",
     "shalwar": "Shalwar",
     "pancha": "Pancha",
