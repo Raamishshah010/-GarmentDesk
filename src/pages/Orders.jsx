@@ -144,6 +144,7 @@ export default function Orders() {
         initialOrder={editingOrder}
         stores={storeDocs}
         customers={customers}
+        nextSerialNumber={orders.length + 1}
       />
 
       <OrderViewModal open={!!viewingOrder} onClose={() => setViewingOrder(null)} order={viewingOrder} />

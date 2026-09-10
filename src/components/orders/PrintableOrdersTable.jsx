@@ -15,7 +15,7 @@ export default function PrintableOrdersTable({ orders }) {
       <table className="w-full border-collapse text-xs text-black">
         <thead>
           <tr>
-            <th className="border border-slate-400 px-2 py-1 text-start">#</th>
+            <th className="border border-slate-400 px-2 py-1 text-start">{t('orders.serialNumber')}</th>
             <th className="border border-slate-400 px-2 py-1 text-start">{t('orders.orderNo')}</th>
             <th className="border border-slate-400 px-2 py-1 text-start">{t('orders.customer')}</th>
             <th className="border border-slate-400 px-2 py-1 text-start">{t('common.phone')}</th>
@@ -37,7 +37,7 @@ export default function PrintableOrdersTable({ orders }) {
           )}
           {orders.map((order, index) => (
             <tr key={order.id}>
-              <td className="border border-slate-400 px-2 py-1">{index + 1}</td>
+              <td className="border border-slate-400 px-2 py-1">{order.serialNumber || index + 1}</td>
               <td className="border border-slate-400 px-2 py-1">{order.orderNo}</td>
               <td className="border border-slate-400 px-2 py-1">{order.customerName}</td>
               <td className="border border-slate-400 px-2 py-1">{order.customerPhone}</td>

@@ -21,6 +21,7 @@ const SERVICE_TYPES = [
 
 const emptyForm = {
   orderNo: '',
+  serialNumber: '',
   customerName: '',
   customerPhone: '',
   serviceType: 'bespoke',
@@ -42,6 +43,7 @@ export default function OrderFormModal({
   defaultServiceType,
   stores = [],
   customers = [],
+  nextSerialNumber = 1,
 }) {
   const { t } = useI18n()
   const [form, setForm] = useState(emptyForm)
@@ -71,7 +73,12 @@ export default function OrderFormModal({
         })
       } else {
         const serviceType = defaultServiceType || 'bespoke'
-        setForm({ ...emptyForm, serviceType, status: STATUS_OPTIONS_BY_SERVICE[serviceType][0] })
+        setForm({
+          ...emptyForm,
+          serviceType,
+          status: STATUS_OPTIONS_BY_SERVICE[serviceType][0],
+          serialNumber: String(nextSerialNumber),
+        })
       }
       setErrors({})
       setLoadStatus(null)
@@ -170,6 +177,16 @@ export default function OrderFormModal({
       }
     >
       <form id="order-form" onSubmit={handleSubmit} className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <Field label={t('orders.serialNumber')}>
+            <input
+              className={`${inputClass} sm:max-w-[160px]`}
+              value={form.serialNumber}
+              onChange={set('serialNumber')}
+            />
+          </Field>
+        </div>
+
         {/* Service type: one segmented control instead of three separate buttons */}
         <div className="sm:col-span-2 mb-4">
           <span className="mb-1.5 block text-sm font-medium text-slate-700">{t('orders.service')}</span>
@@ -276,7 +293,7 @@ export default function OrderFormModal({
 
         <GarmentFieldsSection values={form} onChange={setGarmentField} />
 
-        <div className="sm:col-span-2">
+        <div className="sm:col-span-2 mt-2 border-t border-slate-100 pt-4">
           <Field label={t('orders.notes')}>
             <textarea className={inputClass} rows={3} value={form.notes} onChange={set('notes')} />
           </Field>

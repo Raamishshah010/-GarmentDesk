@@ -41,7 +41,10 @@ export default function CustomersTable({ customers, loading, onEdit, onDelete })
           customers.map((c) => (
             <div key={c.id} className="flex items-center justify-between gap-3 rounded-2xl border border-slate-100 bg-white p-4">
               <div className="min-w-0">
-                <p className="truncate font-semibold text-slate-700">{c.name}</p>
+                <p className="truncate font-semibold text-slate-700">
+                  {c.serialNumber && <span className="text-slate-400">#{c.serialNumber} · </span>}
+                  {c.name}
+                </p>
                 <p className="text-sm text-slate-400">{c.phone}</p>
                 <p className="mt-1 text-sm text-slate-500">
                   {c.ordersCount} {t('customers.ordersCount').toLowerCase()} · {formatCurrency(c.totalSpent)}
@@ -58,6 +61,9 @@ export default function CustomersTable({ customers, loading, onEdit, onDelete })
         <table className="w-full min-w-[640px] border-collapse">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50/60">
+              <th className="px-5 py-3.5 text-start text-xs font-semibold uppercase tracking-wide text-slate-400">
+                {t('orders.serialNumber')}
+              </th>
               <th className="px-5 py-3.5 text-start text-xs font-semibold uppercase tracking-wide text-slate-400">
                 {t('common.name')}
               </th>
@@ -78,14 +84,14 @@ export default function CustomersTable({ customers, loading, onEdit, onDelete })
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={5} className="px-5 py-10 text-center text-sm text-slate-400">
+                <td colSpan={6} className="px-5 py-10 text-center text-sm text-slate-400">
                   {t('common.loading')}
                 </td>
               </tr>
             )}
             {!loading && customers.length === 0 && (
               <tr>
-                <td colSpan={5} className="px-5 py-10 text-center text-sm text-slate-400">
+                <td colSpan={6} className="px-5 py-10 text-center text-sm text-slate-400">
                   {t('common.noResults')}
                 </td>
               </tr>
@@ -93,6 +99,7 @@ export default function CustomersTable({ customers, loading, onEdit, onDelete })
             {!loading &&
               customers.map((c) => (
                 <tr key={c.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
+                  <td className="px-5 py-4 text-slate-500">{c.serialNumber}</td>
                   <td className="px-5 py-4 font-semibold text-slate-700">{c.name}</td>
                   <td className="px-5 py-4 text-slate-500">{c.phone}</td>
                   <td className="px-5 py-4 text-slate-500">{c.ordersCount}</td>

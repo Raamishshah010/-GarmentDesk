@@ -78,7 +78,10 @@ export default function OrdersTable({ orders, sort, onSort, onView, onEdit, onDe
             <div key={order.id} className="rounded-2xl border border-slate-100 bg-white p-4">
               <div className="mb-3 flex items-start justify-between gap-3">
                 <div className="min-w-0">
-                  <p className="font-semibold text-brand-blue">{order.orderNo}</p>
+                  <p className="font-semibold text-brand-blue">
+                    {order.serialNumber && <span className="text-slate-400">#{order.serialNumber} · </span>}
+                    {order.orderNo}
+                  </p>
                   <p className="truncate font-semibold text-slate-700">{order.customerName}</p>
                   <p className="text-sm text-slate-400">{order.customerPhone}</p>
                 </div>
@@ -110,6 +113,9 @@ export default function OrdersTable({ orders, sort, onSort, onView, onEdit, onDe
         <table className="w-full min-w-[900px] border-collapse">
           <thead>
             <tr className="border-b border-slate-100 bg-slate-50/60">
+              <th className="px-5 py-3.5 text-start text-xs font-semibold uppercase tracking-wide text-slate-400">
+                {t('orders.serialNumber')}
+              </th>
               <SortHeader label={t('orders.orderNo')} sortKey="orderNo" sort={sort} onSort={onSort} />
               <SortHeader label={t('orders.customer')} sortKey="customerName" sort={sort} onSort={onSort} />
               <SortHeader label={t('orders.service')} sortKey="serviceType" sort={sort} onSort={onSort} />
@@ -126,14 +132,14 @@ export default function OrdersTable({ orders, sort, onSort, onView, onEdit, onDe
           <tbody>
             {loading && (
               <tr>
-                <td colSpan={9} className="px-5 py-10 text-center text-sm text-slate-400">
+                <td colSpan={10} className="px-5 py-10 text-center text-sm text-slate-400">
                   {t('common.loading')}
                 </td>
               </tr>
             )}
             {!loading && orders.length === 0 && (
               <tr>
-                <td colSpan={9} className="px-5 py-10 text-center text-sm text-slate-400">
+                <td colSpan={10} className="px-5 py-10 text-center text-sm text-slate-400">
                   {t('common.noResults')}
                 </td>
               </tr>
@@ -141,6 +147,7 @@ export default function OrdersTable({ orders, sort, onSort, onView, onEdit, onDe
             {!loading &&
               orders.map((order) => (
                 <tr key={order.id} className="border-b border-slate-50 last:border-0 hover:bg-slate-50/50">
+                  <td className="px-5 py-4 align-top text-slate-500">{order.serialNumber}</td>
                   <td className="px-5 py-4 align-top">
                     <span className="font-semibold text-brand-blue">{order.orderNo}</span>
                   </td>

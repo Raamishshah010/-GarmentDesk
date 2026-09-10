@@ -97,6 +97,7 @@ export default function Customers() {
         onClose={() => setFormOpen(false)}
         onSubmit={handleFormSubmit}
         initialCustomer={editingCustomer}
+        nextSerialNumber={customers.length + 1}
       />
       <ConfirmDialog
         open={!!deletingCustomer}

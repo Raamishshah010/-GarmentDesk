@@ -91,7 +91,8 @@
     "editOrder": "آرڈر میں ترمیم",
     "customerName": "گاہک کا نام",
     "customerPhone": "فون نمبر",
-    "amount": "رقم (Rs)",
+    "amount": "رقم (£)",
+    "serialNumber": "سیریل نمبر",
     "notes": "نوٹس",
     "customerSection": "گاہک",
     "detailsSection": "آرڈر کی تفصیلات",
@@ -120,7 +121,7 @@
   "garmentFields": {
     "measurementsHeading": "پیمائش",
     "styleHeading": "اسٹائل کی تفصیلات",
-    "kandha": "کندھا",
+    "Kandha": "کندھا",
     "bazu": "بازو",
     "teera": "تیراہ",
     "collar": "کالر",

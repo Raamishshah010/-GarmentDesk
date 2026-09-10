@@ -18,10 +18,11 @@ export default function OrderViewModal({ open, onClose, order }) {
   if (!order) return null
 
   const measurements = GARMENT_FIELDS.filter((f) => f.group === 'measurements' && order[f.key])
-  const style = GARMENT_FIELDS.filter((f) => f.group === 'style')
+  const style = GARMENT_FIELDS.filter((f) => f.group === 'style' && order[f.key])
 
   return (
     <Modal open={open} onClose={onClose} title={order.orderNo} maxWidth="max-w-md">
+      {order.serialNumber && <Row label={t('orders.serialNumber')}>{order.serialNumber}</Row>}
       <Row label={t('orders.customer')}>{order.customerName}</Row>
       <Row label={t('common.phone')}>{order.customerPhone}</Row>
       <Row label={t('orders.service')}>
@@ -58,7 +59,7 @@ export default function OrderViewModal({ open, onClose, order }) {
               </p>
               {style.map((f) => (
                 <Row key={f.key} label={t(f.labelKey)}>
-                  {order[f.key] === 'yes' ? t('common.yes') : t('common.no')}
+                  {order[f.key]}
                 </Row>
               ))}
             </>

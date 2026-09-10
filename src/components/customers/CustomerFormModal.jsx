@@ -5,9 +5,9 @@ import GarmentFieldsSection from '../garments/GarmentFieldsSection'
 import { useI18n } from '../../i18n/I18nContext'
 import { emptyGarmentFields, pickGarmentFields } from '../../utils/garmentFields'
 
-const emptyForm = { name: '', phone: '', notes: '', ...emptyGarmentFields }
+const emptyForm = { serialNumber: '', name: '', phone: '', notes: '', ...emptyGarmentFields }
 
-export default function CustomerFormModal({ open, onClose, onSubmit, initialCustomer }) {
+export default function CustomerFormModal({ open, onClose, onSubmit, initialCustomer, nextSerialNumber = 1 }) {
   const { t } = useI18n()
   const [form, setForm] = useState(emptyForm)
   const [errors, setErrors] = useState({})
@@ -22,13 +22,14 @@ export default function CustomerFormModal({ open, onClose, onSubmit, initialCust
     if (open) {
       if (initialCustomer) {
         setForm({
+          serialNumber: initialCustomer.serialNumber || '',
           name: initialCustomer.name || '',
           phone: initialCustomer.phone || '',
           notes: initialCustomer.notes || '',
           ...pickGarmentFields(initialCustomer),
         })
       } else {
-        setForm(emptyForm)
+        setForm({ ...emptyForm, serialNumber: String(nextSerialNumber) })
       }
       setErrors({})
     }
@@ -81,6 +82,16 @@ export default function CustomerFormModal({ open, onClose, onSubmit, initialCust
       }
     >
       <form id="customer-form" onSubmit={handleSubmit} className="grid grid-cols-1 gap-x-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <Field label={t('orders.serialNumber')}>
+            <input
+              className={`${inputClass} sm:max-w-[160px]`}
+              value={form.serialNumber}
+              onChange={set('serialNumber')}
+            />
+          </Field>
+        </div>
+
         <Field label={t('common.name')} required error={errors.name}>
           <input className={inputClass} value={form.name} onChange={set('name')} />
         </Field>
@@ -88,14 +99,14 @@ export default function CustomerFormModal({ open, onClose, onSubmit, initialCust
           <input className={inputClass} value={form.phone} onChange={set('phone')} />
         </Field>
 
-        <div className="sm:col-span-2">
+        <p className="sm:col-span-2 -mt-1 mb-2 text-xs text-slate-400">{t('customers.garmentDefaultsHint')}</p>
+        <GarmentFieldsSection values={form} onChange={setGarmentField} />
+
+        <div className="sm:col-span-2 mt-2 border-t border-slate-100 pt-4">
           <Field label={t('orders.notes')}>
             <textarea className={inputClass} rows={2} value={form.notes} onChange={set('notes')} />
           </Field>
         </div>
-
-        <p className="sm:col-span-2 -mt-1 mb-2 text-xs text-slate-400">{t('customers.garmentDefaultsHint')}</p>
-        <GarmentFieldsSection values={form} onChange={setGarmentField} />
       </form>
     </Modal>
   )
