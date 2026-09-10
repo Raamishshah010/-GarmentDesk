@@ -1,5 +1,5 @@
 {
-  "appName": "گارمنٹ ڈیسک",
+  "appName": "اے این کریشن",
   "nav": {
     "dashboard": "ڈیش بورڈ",
     "orders": "آرڈرز",
@@ -121,7 +121,7 @@
   "garmentFields": {
     "measurementsHeading": "پیمائش",
     "styleHeading": "اسٹائل کی تفصیلات",
-    "Kandha": "کندھا",
+    "kandha": "کندھا",
     "bazu": "بازو",
     "teera": "تیراہ",
     "collar": "کالر",
