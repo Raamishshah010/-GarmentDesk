@@ -89,7 +89,7 @@ export default function Sidebar({ mobileOpen, onCloseMobile }) {
         <div className="flex items-center justify-between px-4 py-5">
           <div className="flex min-w-0 items-center gap-2">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-brand-blue via-brand-purple to-brand-orange text-sm font-extrabold text-white">
-              G
+              AN
             </div>
             <span
               className={`truncate text-lg font-extrabold tracking-tight text-slate-800 ${
